@@ -7,4 +7,4 @@ class Supers(models.Model):
     primary_ability = models.CharField(max_length=255)
     secondary_ability = models.CharField(max_length=255)
     catchphrase = models.CharField(max_length=255)
-    super_type = models.ForeignKey("super_types.SuperType", on_delete=models.CASCADE) # Added the folder name and used dot notation for the Class Model Name
+    super_type = models.ForeignKey("super_types.SuperType", on_delete=models.CASCADE, null=True) # Added the folder name and used dot notation for the Class Model Name
