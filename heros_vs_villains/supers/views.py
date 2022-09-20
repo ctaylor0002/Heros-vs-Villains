@@ -30,3 +30,9 @@ def supers_details(request, pk):
     if request.method == 'GET':
         serializer = SuperSerializer(super)
         return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = SuperSerializer(super, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+        
