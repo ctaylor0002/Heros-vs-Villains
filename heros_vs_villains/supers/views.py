@@ -7,6 +7,7 @@ from rest_framework import status
 from .serializers import SuperSerializer
 from .models import Supers
 from supers import serializers
+from super_types.models import SuperType
 
 
 @api_view(['GET','POST'])
@@ -23,9 +24,23 @@ def supers_list(request):
 
 
 
-        serializer = SuperSerializer(supers, many=True)
-        return Response(serializer.data)
+        super_serializer = SuperSerializer(supers, many=True)
+        # return Response(serializer.data)
+
+        super_types = SuperType.objects.all()
+
+        custom_response_dictionary = {}
     
+        for super in supers:
+            supers = Supers.objects.filter(super_type_id = super.super_type_id)
+
+            serializer = SuperSerializer(supers, many=True)
+
+            custom_response_dictionary[super.name] = {
+                "type": super_serializer.data
+            }
+        return Response(custom_response_dictionary)
+
     elif request.method == 'POST':
         serializer = SuperSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
