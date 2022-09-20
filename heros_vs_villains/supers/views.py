@@ -13,7 +13,16 @@ from supers import serializers
 def supers_list(request):
     
     if request.method == 'GET':
+        
+        type_param = request.query_params.get('type')
+
         supers = Supers.objects.all()
+
+        if type_param:
+            supers = supers.filter(super_type_id__type=type_param)
+
+
+
         serializer = SuperSerializer(supers, many=True)
         return Response(serializer.data)
     
