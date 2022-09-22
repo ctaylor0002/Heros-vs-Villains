@@ -34,9 +34,8 @@ def supers_list(request):
             
             super_serializer = SuperSerializer(supers, many=True)
 
-            custom_response_dictionary[super_type.type] = {
-                super_type.type : super_serializer.data,
-            }
+            custom_response_dictionary[super_type.type] = super_serializer.data
+            
 
 
 
