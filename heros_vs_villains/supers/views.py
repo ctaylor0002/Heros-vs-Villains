@@ -24,21 +24,38 @@ def supers_list(request):
 
 
 
-        super_serializer = SuperSerializer(supers, many=True)
-        # return Response(serializer.data)
-
         super_types = SuperType.objects.all()
 
         custom_response_dictionary = {}
-    
-        for super in supers:
-            supers = Supers.objects.filter(super_type_id = super.super_type_id)
 
-            serializer = SuperSerializer(supers, many=True)
+        for super_type in super_types:
 
-            custom_response_dictionary[super.name] = {
-                "type": super_serializer.data
+            supers = Supers.objects.filter(super_type_id = super_type.id)
+            
+            super_serializer = SuperSerializer(supers, many=True)
+
+            custom_response_dictionary[super_type.type] = {
+                super_type.type : super_serializer.data,
             }
+
+
+
+        # super_serializer = SuperSerializer(supers, many=True)
+
+        # return Response(serializer.data)
+
+        # super_types = SuperType.objects.all()
+
+        # custom_response_dictionary = {}
+    
+        # for super in supers:
+        #    supers = Supers.objects.filter(super_type_id = super.super_type_id)
+
+        #    serializer = SuperSerializer(supers, many=True)
+
+        #    custom_response_dictionary[super.name] = {
+        #        "type": super_serializer.data
+        #    }
         return Response(custom_response_dictionary)
 
     elif request.method == 'POST':
